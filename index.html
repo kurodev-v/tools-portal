@@ -7,42 +7,59 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <canvas id="background-canvas"></canvas>
     <div class="container">
         <h1>kurodev-v's Tools</h1>
 
-        <div class="category-section">
-            <h2>完成</h2>
-            <div class="tool-list">
-                <!-- 完成したツールのリンクをここに -->
-                <a href="https://kurodev-v.github.io/Schedule-Calendar/" target="_blank" class="tool-card">
-                    <h3>スケジュールカレンダー</h3>
-                    <p>Vtuber向けスケジュール管理ツール</p>
-                </a>
+        <div class="categories-grid"> <!-- This will be the flex container -->
+            <div class="category-section">
+                <h2>完成</h2>
+                <div class="tool-list">
+                    <!-- 完成したツールのリンクをここに -->
+                </div>
             </div>
-        </div>
 
-        <div class="category-section">
-            <h2>テスト中</h2>
-            <div class="tool-list">
-                <!-- テスト中のツールのリンクをここに -->
+            <div class="category-section">
+                <h2>テスト中</h2>
+                <div class="tool-list">
+                    <!-- テスト中のツールのリンクをここに -->
+                    <a href="https://kurodev-v.github.io/Schedule-Calendar/" target="_blank" class="tool-card">
+                        <h3>スケジュールカレンダー</h3>
+                        <p>Vtuber向けスケジュール管理ツール</p>
+                    </a>
+                    <div class="feedback-message">
+                        <p>試作公開中です！ぜひフィードバックをお待ちしております。</p>
+                        <p>X (旧Twitter): <a href="https://x.com/kurodev_v" target="_blank">@kurodev_v</a></p>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="category-section">
-            <h2>開発中</h2>
-            <div class="tool-list">
-                <!-- 開発中のツールの説明をここに -->
-                <p>現在、新しいツールを開発中です。お楽しみに！</p>
+            <div class="category-section">
+                <h2>開発中</h2>
+                <div class="tool-list">
+                    <!-- 開発中のツールの説明をここに -->
+                    <p>現在、新しいツールを開発中です。お楽しみに！</p>
+                </div>
             </div>
-        </div>
 
-        <div class="category-section">
-            <h2>企画中</h2>
-            <div class="tool-list">
-                <!-- 企画中のツールの説明をここに -->
-                <p>いくつかのアイデアを検討中です。フィードバック歓迎！</p>
+            <div class="category-section">
+                <h2>企画中</h2>
+                <div class="tool-list">
+                    <!-- 企画中のツールの説明をここに -->
+                    <p>いくつかのアイデアを検討中です。フィードバック歓迎！</p>
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        // Background Canvas Animation
+        const canvas = document.getElementById('background-canvas');
+        const ctx = canvas.getContext('2d');
+        let lines = [];
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        class FlowingLine { constructor() { this.reset(); } reset() { this.isVertical = Math.random() < 0.5; this.length = 100 + Math.random() * 200; this.opacity = 1; this.fadeSpeed = 0.005 + Math.random() * 0.005; this.moveSpeed = 0.8 + Math.random() * 2; this.color = `rgba(138, 43, 226, ${this.opacity})`; if (this.isVertical) { this.x = Math.random() * canvas.width; const e = Math.random() < 0.5; this.y = e ? -this.length : canvas.height + this.length; this.dy = e ? 1 : -1; this.dx = 0; } else { this.y = Math.random() * canvas.height; const e = Math.random() < 0.5; this.x = e ? -this.length : canvas.width + this.length; this.dx = e ? 1 : -1; this.dy = 0; } } draw() { ctx.strokeStyle = `rgba(138, 43, 226, ${this.opacity})`; ctx.lineWidth = 1.5; ctx.beginPath(); if (this.isVertical) { ctx.moveTo(this.x, this.y); ctx.lineTo(this.x, this.y + this.length * (this.dy > 0 ? 1 : -1)); } else { ctx.moveTo(this.x, this.y); ctx.lineTo(this.x + this.length * (this.dx > 0 ? 1 : -1), this.y); } ctx.stroke(); } update() { this.x += this.dx * this.moveSpeed; this.y += this.dy * this.moveSpeed; this.opacity -= this.fadeSpeed; if (this.opacity <= 0 || (this.isVertical && (this.y < -this.length || this.y > canvas.height + this.length)) || (!this.isVertical && (this.x < -this.length || this.x > canvas.width + this.length))) { this.reset(); } } }    function initLines() { for (let i = 0; i < 20; i++) { lines.push(new FlowingLine()); } }     function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); lines.forEach(l => { l.update(); l.draw(); }); requestAnimationFrame(animate); }    initLines();    animate();
+    </script>
 </body>
 </html>
