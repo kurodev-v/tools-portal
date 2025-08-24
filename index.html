@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kurodev-v's Tools Portal</title>
+    <title>Kurodev Tools Portal</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <canvas id="background-canvas"></canvas>
     <div class="container">
-        <h1>kurodev-v's Tools</h1>
+        <h1>Kurodev Tools Portal</h1>
 
         <div class="categories-grid"> <!-- This will be the flex container -->
             <div class="category-section">
@@ -50,6 +50,20 @@
                 </div>
             </div>
         </div>
+
+        <div class="about-section">
+            <h2>Kurodev Tools Portalについて</h2>
+            <p>Kurodev Tools Portalは、配信活動を行うクリエイターの皆様をサポートするための様々なツールを提供するポータルサイトです。</p>
+            <p>スケジュール管理、画像生成、SNS連携など、日々の活動をより効率的かつ魅力的にするためのツールを開発・公開しています。</p>
+            <p>皆様のフィードバックを元に、より良いツールを提供できるよう日々改善を続けてまいります。</p>
+        </div>
+
+        <div class="contact-section">
+            <h2>お問い合わせ</h2>
+            <p>ツールに関するご質問、ご要望、不具合報告などございましたら、お気軽にお問い合わせください。</p>
+            <p>お問い合わせフォーム: <a href="https://forms.gle/9uyo3yAMNTB36o5K6" target="_blank">お問い合わせフォームへ</a></p>
+            <!-- 必要であればメールアドレスも追加 -->
+        </div>
     </div>
     <script>
         // Background Canvas Animation
@@ -61,5 +75,13 @@
         resizeCanvas();
         class FlowingLine { constructor() { this.reset(); } reset() { this.isVertical = Math.random() < 0.5; this.length = 100 + Math.random() * 200; this.opacity = 1; this.fadeSpeed = 0.005 + Math.random() * 0.005; this.moveSpeed = 0.8 + Math.random() * 2; this.color = `rgba(138, 43, 226, ${this.opacity})`; if (this.isVertical) { this.x = Math.random() * canvas.width; const e = Math.random() < 0.5; this.y = e ? -this.length : canvas.height + this.length; this.dy = e ? 1 : -1; this.dx = 0; } else { this.y = Math.random() * canvas.height; const e = Math.random() < 0.5; this.x = e ? -this.length : canvas.width + this.length; this.dx = e ? 1 : -1; this.dy = 0; } } draw() { ctx.strokeStyle = `rgba(138, 43, 226, ${this.opacity})`; ctx.lineWidth = 1.5; ctx.beginPath(); if (this.isVertical) { ctx.moveTo(this.x, this.y); ctx.lineTo(this.x, this.y + this.length * (this.dy > 0 ? 1 : -1)); } else { ctx.moveTo(this.x, this.y); ctx.lineTo(this.x + this.length * (this.dx > 0 ? 1 : -1), this.y); } ctx.stroke(); } update() { this.x += this.dx * this.moveSpeed; this.y += this.dy * this.moveSpeed; this.opacity -= this.fadeSpeed; if (this.opacity <= 0 || (this.isVertical && (this.y < -this.length || this.y > canvas.height + this.length)) || (!this.isVertical && (this.x < -this.length || this.x > canvas.width + this.length))) { this.reset(); } } }    function initLines() { for (let i = 0; i < 20; i++) { lines.push(new FlowingLine()); } }     function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); lines.forEach(l => { l.update(); l.draw(); }); requestAnimationFrame(animate); }    initLines();    animate();
     </script>
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="privacy-policy.md" target="_blank">プライバシーポリシー</a>
+            <span class="separator">|</span>
+            <a href="terms-of-service.md" target="_blank">利用規約</a>
+        </div>
+        <p>&copy; 2025 Kurodev. All rights reserved.</p>
+    </footer>
 </body>
 </html>
